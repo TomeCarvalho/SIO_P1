@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+{% block content %}
+    <div>
+        <p style="float: left; margin-right: 2.5em">Username: </p>
+        <p>{{ info.username }}</p>
+    </div>
+    <div>
+        <p style="float: left; margin-right: 2.5em">Email: </p>
+        <p> {{ info.email }}</p>
+    </div>
+    <form action="/logout" method="get" style="float: left">
+        {% csrf_token %}
+        <button class="btn btn-secondary" type="submit">Logout</button>
+    </form>
+    <a style="margin-left: 2.5em; float: left" class="btn btn-secondary" href="/profile/changepassword">Change
+        Password</a>
+{% endblock %}

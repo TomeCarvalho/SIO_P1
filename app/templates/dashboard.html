@@ -1,0 +1,35 @@
+{% extends 'layout.html' %}
+{% block content %}
+    {% ifnotequal search_prompt '' %}
+        <p class="text-center">Results for: {{ search_prompt | safe }}</p>
+    {% endifnotequal %}
+    <div class="container">
+        {% for pages in three_page_group %}
+            <div class="card-group">
+                {% for page in pages %}
+                    {% if page %}
+                        <div class="card">
+                            <img class="card-img-top" src="{{ page.img_url | safe }}" alt="Card image cap"
+                                 style="height: 18rem;">
+                            <div class="card-body bg-secondary text-light">
+                                <h5 class="card-title">{{ page.title | safe }}</h5>
+                                <p class="card-text max-lines">{{ page.content | safe }}</p>
+                                <a href="{{ page.id | safe }}/" class="btn btn-primary">Visit Page</a>
+                                {% ifequal logged 'admin' %}
+                                    <form action="/deletepage/" method="post">
+                                        <button class="btn btn-danger" style="margin-top: 1em" type="submit"
+                                                value="{{ page.id }}" name="delete-page">Delete Page
+                                        </button>
+                                    </form>
+                                {% endifequal %}
+
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="card" style="visibility: hidden"></div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

@@ -1,0 +1,18 @@
+.form-field {
+    margin-left: 2.5em;
+    margin-bottom: 0.5em;
+}
+.not-mucha-area {
+    width: 40%;
+}
+.mucha-area {
+    width: 80%;
+    max-height: 200px;
+}
+.wiki-title {
+    text-align: center;
+}
+label {
+    margin-left: 2.5em;
+}
+

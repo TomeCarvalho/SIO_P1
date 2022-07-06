@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+{% block content %}
+    <div class="container-fluid;" style="margin-left: 30%">
+        <form action="/login/" method="post" class="mt-3">
+            {% csrf_token %}
+            {{ form }}
+            <button style="margin-left: 2.5em" class="btn btn-primary" type="submit">Submit</button>
+        </form>
+        <br>
+        <br>
+        <div style="margin-left: 10%" class="container">
+            <p style="float: left" >Not Registered?</p>
+            <a style="margin-left: 2.5em; float: left" class="btn btn-secondary" href="/createaccount/">Sign up</a>
+        </div>
+    </div>
+{% endblock %}

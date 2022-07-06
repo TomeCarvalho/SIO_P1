@@ -1,0 +1,30 @@
+{% extends 'layout.html' %}
+{% block content %}
+    <h1 class="wiki-title" style="text-align: center; margin-top: 1em">{{ page.title | safe }}</h1>
+    <h3 class="wiki-title" style="text-align: center; margin-bottom: 2em">Created by {{ page.user | safe }}
+        on {{ page.date_pretty | safe }}</h3>
+    <div style="display: flex; justify-content: center; margin-bottom: 2em">
+        <img class="wiki-img" style="height: 18rem" src="{{ page.img_url | safe }}"/>
+    </div>
+    <div class="wiki-content border rounded mx-2 my-3 p-1">{{ page.content | safe }}</div>
+    <h3 class="text-center my-3">Comments</h3>
+    {% for comment in page.comments %}
+        <div class="border rounded m-2">
+            <p style="margin-top: 1em;text-align: center">
+                <b>{{ comment.user_id | safe }}</b> - {{ comment.date_pretty | safe }}
+            </p>
+            <p style="text-align: center">{{ comment.content | safe }}</p>
+            {% ifequal logged 'admin' %}
+                <form action="/deletecomment/" style="display: flex; justify-content: center" method="post">
+                    <button class="btn btn-danger" style="margin-bottom: 1em" type="submit"
+                            value="{{ comment.id }},{{ page.id }}" name="delete-comment">Delete Comment
+                    </button>
+                </form>
+            {% endifequal %}
+        </div>
+
+    {% endfor %}
+    <a href="comment">
+        <button type="button" class="btn btn-primary ml-2 mb-3">New Comment</button>
+    </a>
+{% endblock %}

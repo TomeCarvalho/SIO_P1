@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <title>LEI Memes Wiki</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static "style.css" %}">
+    <style>
+        * {
+            font-family: Roboto;
+        }
+
+        .card {
+            display: inline-block;
+            margin: 1em;
+        }
+
+        .max-lines {
+            display: block; /* or inline-block */
+            text-overflow: ellipsis;
+            word-wrap: break-word;
+            overflow: hidden;
+            height: 5.4em;
+            line-height: 1.8em;
+        }
+    </style>
+</head>
+<body class="bg-dark text-light">
+<nav class="navbar navbar-expand-lg navbar-dark sticky-top" style="background-color: #212528">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01"
+            aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+        <span class="navbar-brand">LEI Memes Wiki</span>
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0" style="width: 100%">
+            <li class="nav-item {% if dashboardPage %} active {% endif %}">
+                <a class="nav-link" href="/wiki">Dashboard</a>
+            </li>
+            {% if logged %}
+                <li class="nav-item {% if createPage %} active {% endif %}">
+                    <a class="nav-link" href="/wiki/create">Create Page</a>
+                </li>
+            {% endif %}
+        </ul>
+        <form action="/wiki" method="get" class="form-inline my-2 my-lg-0"
+              style="display: flex; justify-content: end; width: 70%">
+            {% csrf_token %}
+            <input name="search_prompt" class="form-control mr-sm-2" type="search" placeholder="Search"
+                   aria-label="Search" style="width: 50%">
+            <button class="btn btn-outline-success my-2 my-sm-0" style="margin-right: 0.5em" type="submit">Search
+                Pages
+            </button>
+        </form>
+        <ul class="navbar-nav ml-auto">
+            {% ifequal logged None %}
+                <li class="nav-item {% if loginPage %} active {% endif %}">
+                    <a class="nav-link btn btn-secondary" href="/login">Log in</a>
+                </li>
+            {% else %}
+                <li class="nav-item">
+                    <form action="/profile" method="get">
+                        <button class="btn btn-secondary" type="submit">Profile</button>
+                    </form>
+                </li>
+            {% endifequal %}
+        </ul>
+    </div>
+</nav>
+{% block content %}
+{% endblock %}
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+</body>
+</html>

@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+{% block content %}
+    <h1 class="wiki-title" style="text-align: center; margin-top: 1em">{{ page.title  }}</h1>
+    <h3 class="wiki-title" style="text-align: center">Created by {{ page.user  }}
+        on {{ page.date_pretty  }}</h3>
+    {% if page.hidden %}
+        <h2 class="wiki-title" style="text-align: center; margin-bottom: 1em; color: red">This page is hidden!</h2>
+    {% endif %}
+    <div style="display: flex; justify-content: center; margin-bottom: 2em">
+        <img class="wiki-img" style="height: 18rem" src="{{ page.img_url  }}"/>
+    </div>
+    <div class="wiki-content border rounded mx-2 my-3 p-1">{{ page.content  }}</div>
+    <h3 class="text-center my-3">Comments</h3>
+    {% for comment in page.comments %}
+        {% if not comment.hidden or user.0.admin %}
+            <div class="border rounded m-2">
+                <p style="margin-top: 1em;text-align: center">
+                    <b>{{ comment.user_id }}</b> - {{ comment.date_pretty }}
+                </p>
+                <p style="text-align: center">{{ comment.content }}</p>
+                {% if user.0.admin %}
+                    {% if comment.hidden %}
+                        <form action="/unhidecomment/" style="display: flex; justify-content: center" method="post">
+                            {% csrf_token %}
+                            <button class="btn btn-secondary" style="margin-bottom: 1em"  type="submit"
+                            value="{{ comment.id }},{{ page.id }}" name="delete-comment">Un-Hide Comment</button>
+                        </form>
+                    {% else %}
+                        <form action="/hidecomment/" style="display: flex; justify-content: center" method="post">
+                            {% csrf_token %}
+                            <button class="btn btn-secondary" style="margin-bottom: 1em"  type="submit"
+                            value="{{ comment.id }},{{ page.id }}" name="delete-comment">Hide Comment</button>
+                        </form>
+                    {% endif %}
+
+                {% endif %}
+            </div>
+        {% endif %}
+    {% endfor %}
+    {% if logged %}
+    <a href="comment">
+        <button type="button" class="btn btn-primary ml-2 mb-3">New Comment</button>
+    </a>
+    {% endif %}
+{% endblock %}

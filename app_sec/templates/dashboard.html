@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+{% block content %}
+    {% ifnotequal search_prompt '' %}
+        <p class="text-center">Results for: {{ search_prompt }}</p>
+    {% endifnotequal %}
+    <div class="container">
+        {% for pages in three_page_group %}
+            <div class="card-group">
+                {% for page in pages %}
+                    {% if page %}
+                        <div class="card">
+                            {% csrf_token %}
+                            <img class="card-img-top" src="{{ page.img_url }}" alt="Card image cap"
+                                 style="height: 18rem;">
+                            <div class="card-body bg-secondary text-light">
+                                <h5 class="card-title">{{ page.title }}</h5>
+                                <p class="card-text max-lines">{{ page.content }}</p>
+                                <a href="{{ page.id }}/" class="btn btn-primary">Visit Page</a>
+                                {% if user.0.admin %}
+                                    {% if page.hidden %}
+                                        <form action="/unhidepage/" method="post">
+                                            {% csrf_token %}
+                                            <button class="btn btn-dark" style="margin-top: 1em" type="submit"
+                                                    value="{{ page.id }}" name="delete-page">Un-Hide Page
+                                            </button>
+                                        </form>
+                                    {% else %}
+                                        <form action="/hidepage/" method="post">
+                                            {% csrf_token %}
+                                            <button class="btn btn-dark" style="margin-top: 1em" type="submit"
+                                                    value="{{ page.id }}" name="delete-page">Hide Page
+                                            </button>
+                                        </form>
+                                    {% endif %}
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="card" style="visibility: hidden"></div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
